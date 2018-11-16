@@ -1,4 +1,3 @@
-
 rm(list=ls())
 
 library(ggplot2)
@@ -15,7 +14,7 @@ speed$X <- NULL
 crash$X <- NULL
 
 # Ensure Speed violation camera is perfectly correlated with Latitude and Longitude
-camLocation <- data.frame(speed$CAMERA.ID, speed$LATITUDE, speed$LONGITUDE)
+allCamViolations <- data.frame(speed$CAMERA.ID, speed$LATITUDE, speed$LONGITUDE)
 # --- MISSING: official results of this
 
 # Remove camera from dataset to avoid overfitting
@@ -54,8 +53,23 @@ coords$type <- gsub("NA", "", as.character(coords$type))
 coords <- coords[,c("date", "type", "LONGITUDE", "LATITUDE")]
 
 # Initial Data Visualization
-p <- ggplot(coords, aes(x=LONGITUDE, y=LATITUDE, col=type)) +
-            geom_point()
+p <- ggplot(coords, aes(x=LONGITUDE, y=LATITUDE, col=type)) + geom_point()
 
+# Finding Each Camera
+library(sqldf)
+EveryCamera <- sqldf('SELECT DISTINCT * FROM allCamViolations')
+EveryCamera$CameraID <- gsub("CHI", "", as.character(EveryCamera$speed.CAMERA.ID))
 
+# Loop function to assign a nearest speeding camera
+# to every crash based on Euclidean distance. 
+
+#for(crash in 1:nrow(crash)){
+  # Get next camera
+  #for(camera in 1:nrow(EveryCamera)){
+    # Compute Euclidean distance
+
+    #if(this.distance < best.distance)
+      # Update nearest camera
+  #}
+#}
 
