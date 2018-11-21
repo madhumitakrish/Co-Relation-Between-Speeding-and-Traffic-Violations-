@@ -19,7 +19,7 @@ crash <- crash[!is.na(crash$LONGITUDE),]
 crash <- crash[!is.na(crash$LATITUDE),]
 
 # Strip crash of uneeded features
-crash <- crash[,c("CRASH_DATE", "LATITUDE", "LONGITUDE")]
+crash <- crash[,c("CRASH_DATE", "STREET_NAME", "LATITUDE", "LONGITUDE")]
 
 # Remove observations with little variance
 speedRem <- nearZeroVar(speed)

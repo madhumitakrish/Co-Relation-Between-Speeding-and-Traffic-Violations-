@@ -20,19 +20,6 @@ allCamViolations <- data.frame(speed$CAMERA.ID, speed$LATITUDE, speed$LONGITUDE)
 # Remove camera from dataset to avoid overfitting
 speed$CAMERA.ID <- NULL
 
-# Round Longitude and Latitude to 2 decimal places
-#speed$LATITUDE <- round(speed$LATITUDE, 2)
-#speed$LONGITUDE <- round(speed$LONGITUDE, 2)
-
-#speed[, lapply(.SD, round, 2), "LONGITUDE"]
-#speed[, lapply(.SD, round, 2), "LATITUDE"]
-
-#crash$LATITUDE <- round(crash$LATITUDE, 2)
-#crash$LONGITUDE <- round(crash$LONGITUDE, 2)
-
-#crash[, lapply(.SD, round, 2), "LONGITUDE"]
-#crash[, lapply(.SD, round, 2), "LATITUDE"]
-
 # Merge datasets by similar features
 
 # Common date 
@@ -63,13 +50,25 @@ EveryCamera$CameraID <- gsub("CHI", "", as.character(EveryCamera$speed.CAMERA.ID
 # Loop function to assign a nearest speeding camera
 # to every crash based on Euclidean distance. 
 
-#for(crash in 1:nrow(crash)){
-  # Get next camera
-  #for(camera in 1:nrow(EveryCamera)){
-    # Compute Euclidean distance
+this.distance <- 0
+chosen.camera <- NULL
+regions <- rep("blank", nrow(crash))
+cameras <- EveryCamera[,"CameraID"]
 
-    #if(this.distance < best.distance)
-      # Update nearest camera
-  #}
-#}
+crash.long <- crash[,"LONGITUDE"]
+cam.long <- EveryCamera[,"speed.LONGITUDE"]
+cam.lat <- EveryCamera[,"speed.LATITUDE"]
+crash.lat <- crash[,"LATITUDE"]
+for(x in 1:nrow(crash)){
+  shortest.distance <- 10000
+  #Find shortest distance for given crash
+  for(y in 1:nrow(EveryCamera)){
+    # Compute Euclidean distance
+    this.distance <- (crash.long[x] - cam.long[y])^2 + (crash.lat[x] - cam.lat[y])^2
+    if(this.distance < shortest.distance){
+      shortest.distance = this.distance
+      regions[x] <- cameras[y]
+    }
+  }
+}
 
