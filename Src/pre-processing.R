@@ -81,7 +81,7 @@ for(x in 1:nrow(crash)){
     if(this.distance < shortest.distance){
       shortest.distance <- this.distance
       regions[x] <- cameras[y]
-      distances[x]<-floor(((sqrt(this.distance))*10))/10
+      distances[x]<-floor(((sqrt(this.distance))*1000))/1000
     }
   }
 }
