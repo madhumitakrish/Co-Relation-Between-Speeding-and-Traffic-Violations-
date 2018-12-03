@@ -8,6 +8,7 @@ library(plyr)
 # by common features
 
 # Import datasets
+
 speed <- read.csv("../Data/New_Speed.csv")
 crash <- read.csv("../Data/New_Crash.csv")
 
@@ -17,6 +18,7 @@ crash <- crash[,c("POSTED_SPEED_LIMIT", "STREET_NAME", "LATITUDE", "LONGITUDE")]
 speed <- speed[,c("CAMERA.ID", "LATITUDE", "LONGITUDE")]
 
 speed_limits <- crash$POSTED_SPEED_LIMIT
+
 
 # Latitude and longitude is required 
 speed <- speed[!is.na(speed$LONGITUDE),]
@@ -54,6 +56,10 @@ everyCamera$ViolationCount <- violationCount$freq
 # Loop function to assign a nearest speeding camera
 # to every crash based on Euclidean distance. 
 this.distance <- 0
+chosen.camera <- NULL
+regions <- rep("blank", nrow(crash))
+cameras <- everyCamera[,"CAMERA.ID"]
+distances<- rep("blank", nrow(crash))
 
 crash.long <- crash[,"LONGITUDE"]
 cam.long <- everyCamera[,"LONGITUDE"]
@@ -64,6 +70,8 @@ regions <- rep("blank", nrow(crash))
 distances <- rep("blank", nrow(crash))
 cameras <- everyCamera[,"CAMERA.ID"]
 for(x in 1:nrow(crash)){
+  
+  #Find shortest distance for given crash
   shortest.distance <- 10000
   
   #Count all crashes near the camera
@@ -73,8 +81,8 @@ for(x in 1:nrow(crash)){
     if(this.distance < shortest.distance){
       shortest.distance <- this.distance
       regions[x] <- cameras[y]
-      distances[x] <- this.distance
-    } 
+      distances[x]<-floor(((sqrt(this.distance))*10))/10
+    }
   }
 }
 

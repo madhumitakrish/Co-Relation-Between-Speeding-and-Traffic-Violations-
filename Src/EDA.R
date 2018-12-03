@@ -16,3 +16,8 @@ coords$X <- NULL
 
 # Initial Data Visualization
 p <- ggplot(coords, aes(x=LONGITUDE, y=LATITUDE, col=type)) + geom_point()
+
+length(which(crash$distances <=1.6))
+#plot(x=crash$STREET_NAME,y=crash$distances,ylim=c(0,.1))
+plot(crash$distances,ylim=c(0,3.0))
+plot(aggregate(data.frame(count = crash$distances), list(value = crash$distances), length))
