@@ -97,4 +97,5 @@ everyCamera$CrashesCount<-CrashesCount$freq
 # Also write aggregrated crash/speed 'coords' data to file
 write.csv(crash, file="../Data/Mod_Crash.csv")
 write.csv(speed, file="../Data/Mod_Speed.csv")
-write.csv(everyCamera, file="../Data/Aggr_Crash_Speed.csv")
+write.csv(coords, file="../Data/Aggr_Coordinates.csv")
+write.csv(everyCamera, file="../Data/CameraMetrics.csv")
