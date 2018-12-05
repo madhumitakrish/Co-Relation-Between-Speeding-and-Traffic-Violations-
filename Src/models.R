@@ -73,7 +73,7 @@ abline(v = knot.position, lty="dashed")
 
 summary(fit)
 
-#smoothing splines
+# Smoothing splines
 fit <- smooth.spline(everyCamera$ViolationCount,everyCamera$CrashesCount, df=10)
 fit2 <- smooth.spline(everyCamera$ViolationCount,everyCamera$CrashesCount, cv=TRUE)
 
@@ -82,7 +82,8 @@ lines(fit,  col="red", lwd=2)
 lines(fit2, col="blue", lwd=2)
 legend("topright", legend=c("10 DF"," (LOOCV)"), col=c("red", "blue"),lty=1, lwd=2, cex=.8)
 
-#Regression Splines Model for Distance of Crash from Camera versus Number of Crashes
+# ---------- Regression Splines Model for Distance of Crash from Camera versus Number of Crashes ----------
+
 library(splines)
 value.grid <- seq(from =0, to = 3, by=0.1)
 aggregatedcrash<-aggregate(data.frame(count = crash$distances), list(value = crash$distances), length)
