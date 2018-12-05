@@ -46,6 +46,7 @@ perMSEImprove <- (decrease / nullMSE) * 100
 
 # ---------- Modelling for Crash Count versus Speed Count ----------
 #Polynomial Regression
+options(warn=-1)
 fit <- lm(everyCamera$CrashesCount ~ poly(everyCamera$ViolationCount, 4))
 count.grid <- seq(from = min(everyCamera$ViolationCount), to = max(everyCamera$ViolationCount),length.out = 150)
 newdata <-list(count.grid)
@@ -89,11 +90,13 @@ aggregatedcrash<- aggregatedcrash[aggregatedcrash$value<=3,]
 N<-nrow(aggregatedcrash)
 Index<-sample(N,N*0.7)
 Train<-aggregatedcrash[Index,]
+Train$value <- as.numeric(Train$value)
 Test<-aggregatedcrash[-Index,]
+Test$value <- as.numeric(Test$value)
 knot.position <- c(1,2,3)
 fit <- lm(count ~ bs(value, knots=knot.position), data=Train)
 
-pred <- predict(fit,newdata= list(value=value.grid), se=TRUE)
+pred <- predict(fit,newdata=list(value=value.grid), se=TRUE)
 #png(filename="../Images/SplineCrashCountvsDistance.png")
 plot(Test$value,Test$count,xlab="Distance of Crash from Camera",ylab="Number of Crashes", cex=.5, col="black",main="Cubic Spline Model")
 lines(value.grid, pred$fit, lwd=2, col="blue")
