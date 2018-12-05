@@ -2,7 +2,7 @@
 rm(list=ls())
 library(plyr)
 
-# Name(s): Andrew Weathers ...
+# Name(s): Andrew Weathers, Siddhant Aggarwal, Madhumita Krishnan
 # Date: 10 October 2018
 # Purpose: Aggregate traffic violations dataset with crash dataset
 # by common features
